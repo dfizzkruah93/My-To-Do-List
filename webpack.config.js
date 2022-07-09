@@ -1,46 +1,27 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin'); // eslint-disable-line
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  mode: 'development',
   entry: './src/index.js',
   output: {
-    filename: 'app.js',
+    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true,
   },
-  plugins: [new HtmlWebpackPlugin({
-    template: './src/index.html',
-    // filename: 'index.html',
-    // title: 'Webpack Todo List',
-    // inject: 'body',
-
-  })],
-
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
-
-      },
-      {
-        test: /\.html$/i,
-        loader: 'html-loader',
-      },
-
     ],
-
   },
-
+  plugins: [new HtmlWebpackPlugin({ template: './src/template.html' })],
   devServer: {
-    static: path.resolve(__dirname, 'dist'),
-
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
+    compress: true,
+    port: 9000,
   },
-
-  mode: 'development',
-
 };
